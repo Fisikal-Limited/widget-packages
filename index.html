@@ -3,34 +3,18 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="./vite.svg" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vite + Svelte + TS</title>
-  <script type="module" crossorigin src="./assets/index-Cz-Je7WW.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-DmdCHBBB.css">
+  <title>Payment Widget Sample</title>
+  <!-- <link rel="stylesheet" href="/node_modules/@fisikal-ltd/purchase-widget/payment-widget.css" /> -->
+  <script type="module" crossorigin src="/assets/index-DKT5I6S2.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CozTpH1M.css">
 </head>
 
 <body>
-  <!-- <div id="app"></div> -->
-  <!-- <payment-widget basepath='/widget-packages' publicStripeKey='pk_test_MaMhlqv0uPa8mFSOKTJGYO8U' locationId="1110" servicePackageId="794" userId="165134"></payment-widget> -->
-  <payment-widget basepath='/widget-packages' publicStripeKey='pk_test_MaMhlqv0uPa8mFSOKTJGYO8U' locationId='1110'></payment-widget>
+  <payment-widget publicStripeKey="pk_test_MaMhlqv0uPa8mFSOKTJGYO8U" locationId="1110">
+  </payment-widget>
 
-  <script>
-    function handlePaymentComplete(event) {
-      console.log('Payment completed:', event.detail.success);
-    }
-
-    function handleBackButton() {
-      console.log('Back button clicked HTML');
-      // Add your back button handling logic here
-    }
-
-    // Add event listeners to the web component
-    const paymentWidget = document.querySelector('payment-widget');
-
-    paymentWidget.addEventListener('onCompleted', handlePaymentComplete);
-    paymentWidget.addEventListener('onBack', handleBackButton);
-  </script>
 </body>
 
 </html>
