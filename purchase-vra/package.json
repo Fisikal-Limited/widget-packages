@@ -1,0 +1,17 @@
+{
+  "name": "@fisikal-ltd/purchase-js",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./widget.js",
+  "exports": {
+    ".": {
+      "import": "./widget.js"
+    },
+    "./widget.css": "./widget.css"
+  },
+  "files": [
+    "widget.js",
+    "widget.css",
+    "assets"
+  ]
+}
