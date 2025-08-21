@@ -7,6 +7,33 @@
 - servicePackageId (Optional): Specific service package
 - userId (Optional): User identifier
 
+### How to Obtain `publicFisikalKey`
+To receive the `publicFisikalKey`, you need to authenticate via the Unified API only once (Postman).
+```
+POST /api/unified/sessions/auth
+{
+  "email": "<your_email>",
+  "password": "<your_password>",
+  "roles": [
+    "manager"
+  ]
+}
+```
+A successful request will return a JSON object similar to:
+```
+{
+  "user": {
+    "id": 1
+  },
+  "identity": {
+    "fisikal_token": "<publicFisikalKey>"
+  }
+}
+```
+### How to Obtain `publicStripeKey`
+The `publicStripeKey` refers to Stripe’s publishable key, used for client-side (frontend) operations—such as with stripeSdk.
+[Stripe Docs](https://docs.stripe.com/keys)
+
 # Installing Purchase Widget in WordPress Project
 
 ## Installation Steps
