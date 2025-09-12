@@ -7,6 +7,11 @@
 - servicePackageId (Optional): Specific service package
 - userId (Optional): User identifier
 
+Links:
+[Web Portal](https://cuttingedge.fisikal.com)
+[Developer API](https://cuttingedge.fisikal.com/#/home/developers)
+[FAQ](https://knowledge.fisikal.com/en/knowledge) 
+
 ### How to Obtain `publicFisikalKey`
 To receive the `publicFisikalKey`, you need to authenticate via the Unified API only once (Postman).
 ```
@@ -32,7 +37,7 @@ A successful request will return a JSON object similar to:
 ```
 ### How to Obtain `publicStripeKey`
 The `publicStripeKey` refers to Stripe’s publishable key, used for client-side (frontend) operations—such as with stripeSdk.
-[Stripe Docs](https://docs.stripe.com/keys)
+[Stripe Docs](https://docs.stripe.com/keys). Write to us to receive the stripe-key corresponding to your club.
 
 # Installing Purchase Widget in WordPress Project
 
@@ -68,7 +73,7 @@ Create `/wp-content/themes/your-theme/patterns/payment-widget.php`
 
    <div class="payment-widget-container">
        <payment-widget 
-           basepath='/widget-packages'
+           basepath='/widget'
            publicFisikalKey="your_fisikal_key"
            publicStripeKey="your_stripe_key" 
            locationId="1">
@@ -96,7 +101,7 @@ add_action( 'init', 'register_payment_widget_pattern' );
 ### Direct Placement
 ```
 <payment-widget 
-    basepath='/widget-packages'
+    basepath='/widget'
     publicFisikalKey="your_fisikal_key"
     publicStripeKey="your_stripe_key" 
     locationId="1">
@@ -108,7 +113,7 @@ Add to `functions.php`
 ```
 function payment_widget_shortcode($atts) {
     $atts = shortcode_atts([
-        'basepath' => '/widget-packages',
+        'basepath' => '/widget',
         'location_id' => '1',
         'fisikal_key' => '',
         'stripe_key' => ''
@@ -231,7 +236,7 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({
 function App() {
   return (
     <PaymentWidget
-      basepath="/widget-packages"
+      basepath="/widget"
       publicFisikalKey="fisikal_public_key_xxx"
       publicStripeKey="pk_test_xxx"
       locationId={1110}
