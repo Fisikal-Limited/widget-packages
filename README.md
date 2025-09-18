@@ -2,7 +2,7 @@
 ## Configuration Parameters
 - publicFisikalKey (Required): Your Fisikal public key
 - publicStripeKey (Required): Your Stripe public key
-- locationId (Required): Numeric location identifier
+- locationId (Optional): Numeric location identifier
 - basepath (Optional): Custom base path
 - servicePackageId (Optional): Specific service package
 - userId (Optional): User identifier
