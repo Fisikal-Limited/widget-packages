@@ -8,8 +8,8 @@
 - userId (Optional): User identifier
 
 Links:
-[Web Portal](https://cuttingedge.fisikal.com)
-[Developer API](https://cuttingedge.fisikal.com/#/home/developers)
+[Web Portal](https://cuttingedge.fisikal.com) | 
+[Developer API](https://cuttingedge.fisikal.com/#/home/developers) | 
 [FAQ](https://knowledge.fisikal.com/en/knowledge) 
 
 ### How to Obtain `publicFisikalKey`
@@ -50,7 +50,7 @@ Add to `functions.php`
 function enqueue_purchase_widget() {
      wp_enqueue_script(
          'purchase-widget', 
-         get_template_directory_uri() . '/js/widget.umd.cjs', 
+         get_template_directory_uri() . '/js/purchase-widget/widget.umd.cjs', 
          [], 
          '1.0.0', 
          true
@@ -73,10 +73,9 @@ Create `/wp-content/themes/your-theme/patterns/payment-widget.php`
 
    <div class="payment-widget-container">
        <payment-widget 
-           basepath='/widget'
+           basepath='/widget-test'
            publicFisikalKey="your_fisikal_key"
-           publicStripeKey="your_stripe_key" 
-           locationId="1">
+           publicStripeKey="your_stripe_key">
        </payment-widget>
    </div>
 ```
@@ -103,8 +102,7 @@ add_action( 'init', 'register_payment_widget_pattern' );
 <payment-widget 
     basepath='/widget'
     publicFisikalKey="your_fisikal_key"
-    publicStripeKey="your_stripe_key" 
-    locationId="1">
+    publicStripeKey="your_stripe_key">
 </payment-widget>
 ```
 
@@ -113,8 +111,7 @@ Add to `functions.php`
 ```
 function payment_widget_shortcode($atts) {
     $atts = shortcode_atts([
-        'basepath' => '/widget',
-        'location_id' => '1',
+        'basepath' => '/widget-test',
         'fisikal_key' => '',
         'stripe_key' => ''
     ], $atts);
@@ -124,8 +121,7 @@ function payment_widget_shortcode($atts) {
     <payment-widget 
         basepath="<?php echo esc_attr($atts['basepath']); ?>"
         publicFisikalKey="<?php echo esc_attr($atts['fisikal_key']); ?>"
-        publicStripeKey="<?php echo esc_attr($atts['stripe_key']); ?>" 
-        locationId="<?php echo esc_attr($atts['location_id']); ?>">
+        publicStripeKey="<?php echo esc_attr($atts['stripe_key']); ?>">
     </payment-widget>
     <?php
     return ob_get_clean();
@@ -187,7 +183,6 @@ interface PaymentWidgetProps {
   basepath: string;
   publicFisikalKey: string;  // Required - Fisikal public key
   publicStripeKey: string;   // Required - Stripe public key
-  locationId: number;        // Required - Location identifier
   onCompleted?: (details: { success: boolean }) => void;
   onBack?: () => void;
 }
@@ -196,7 +191,6 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({
   basepath,
   publicFisikalKey,
   publicStripeKey,
-  locationId,
   onCompleted,
   onBack
 }) => {
@@ -227,7 +221,6 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({
       basepath={basepath}
       publicFisikalKey={publicFisikalKey}
       publicStripeKey={publicStripeKey}
-      locationId={locationId}
     />
   );
 };
@@ -239,7 +232,6 @@ function App() {
       basepath="/widget"
       publicFisikalKey="fisikal_public_key_xxx"
       publicStripeKey="pk_test_xxx"
-      locationId={1110}
       onCompleted={({ success }) => console.log('Payment completed:', success)}
       onBack={() => console.log('Back clicked')}
     />
