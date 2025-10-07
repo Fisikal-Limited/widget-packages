@@ -1,50 +1,19 @@
 # General
 ## Configuration Parameters
-- publicFisikalKey (Required): Your Fisikal public key
-- publicStripeKey (Required): Your Stripe public key
-- locationId (Optional): Numeric location identifier
 - basepath (Optional): Custom base path
-- servicePackageId (Optional): Specific service package
-- userId (Optional): User identifier
 
 Links:
 [Web Portal](https://cuttingedge.fisikal.com) | 
 [Developer API](https://cuttingedge.fisikal.com/#/home/developers) | 
 [FAQ](https://knowledge.fisikal.com/en/knowledge) 
 
-### How to Obtain `publicFisikalKey`
-To receive the `publicFisikalKey`, you need to authenticate via the Unified API only once (Postman).
-```
-POST /api/unified/sessions/auth
-{
-  "email": "<your_email>",
-  "password": "<your_password>",
-  "roles": [
-    "manager"
-  ]
-}
-```
-A successful request will return a JSON object similar to:
-```
-{
-  "user": {
-    "id": 1
-  },
-  "identity": {
-    "fisikal_token": "<publicFisikalKey>"
-  }
-}
-```
-### How to Obtain `publicStripeKey`
-The `publicStripeKey` refers to Stripe’s publishable key, used for client-side (frontend) operations—such as with stripeSdk.
-[Stripe Docs](https://docs.stripe.com/keys). Write to us to receive the stripe-key corresponding to your club.
-
 # Installing Purchase Widget in WordPress Project
 
 ## Installation Steps
 1. Download `purchase-{brand}.tgz`
 2. Extract files in `wp-content/themes/{your-theme}/js/purchase-widget/`
-3. Enqueue the Widget Script in WordPress
+3. Make sure there are 3 files (`package.json, widget.js, widget.umd.cjs`)
+4. Enqueue the Widget Script in WordPress
 Add to `functions.php`
 ```
 function enqueue_purchase_widget() {
@@ -52,7 +21,7 @@ function enqueue_purchase_widget() {
          'purchase-widget', 
          get_template_directory_uri() . '/js/purchase-widget/widget.umd.cjs', 
          [], 
-         '1.0.0', 
+         '1.0.0', // Don't forget to change version
          true
      );
  }
@@ -72,10 +41,8 @@ Create `/wp-content/themes/your-theme/patterns/payment-widget.php`
    ?>
 
    <div class="payment-widget-container">
-       <payment-widget 
-           basepath='/widget-test'
-           publicFisikalKey="your_fisikal_key"
-           publicStripeKey="your_stripe_key">
+       <payment-widget
+       basepath='/widget-test'> // Optional param, ignore if needed
        </payment-widget>
    </div>
 ```
@@ -99,10 +66,8 @@ add_action( 'init', 'register_payment_widget_pattern' );
 ## Usage
 ### Direct Placement
 ```
-<payment-widget 
-    basepath='/widget'
-    publicFisikalKey="your_fisikal_key"
-    publicStripeKey="your_stripe_key">
+<payment-widget
+	basepath='/widget-test'> // Optional param, ignore if needed
 </payment-widget>
 ```
 
@@ -111,17 +76,13 @@ Add to `functions.php`
 ```
 function payment_widget_shortcode($atts) {
     $atts = shortcode_atts([
-        'basepath' => '/widget-test',
-        'fisikal_key' => '',
-        'stripe_key' => ''
+    	'basepath' => '/widget-test', // Optional, ignore if needed
     ], $atts);
 
     ob_start();
     ?>
-    <payment-widget 
-        basepath="<?php echo esc_attr($atts['basepath']); ?>"
-        publicFisikalKey="<?php echo esc_attr($atts['fisikal_key']); ?>"
-        publicStripeKey="<?php echo esc_attr($atts['stripe_key']); ?>">
+    <payment-widget
+    	basepath="<?php echo esc_attr($atts['basepath']); ?>"> // Optional param, ignore if needed
     </payment-widget>
     <?php
     return ob_get_clean();
@@ -130,7 +91,8 @@ add_shortcode('purchase_widget', 'payment_widget_shortcode');
 ```
 Usage in Posts/Pages:
 ```
-[purchase_widget fisikal_key="your_key" stripe_key="your_stripe_key"]
+[purchase_widget basepath="/widget-test"] // Optional param, ignore if needed
+
 ```
 
 ## Event Handling
@@ -181,16 +143,12 @@ import React from 'react';
 
 interface PaymentWidgetProps {
   basepath: string;
-  publicFisikalKey: string;  // Required - Fisikal public key
-  publicStripeKey: string;   // Required - Stripe public key
   onCompleted?: (details: { success: boolean }) => void;
   onBack?: () => void;
 }
 
 export const PaymentWidget: React.FC<PaymentWidgetProps> = ({
   basepath,
-  publicFisikalKey,
-  publicStripeKey,
   onCompleted,
   onBack
 }) => {
@@ -219,8 +177,6 @@ export const PaymentWidget: React.FC<PaymentWidgetProps> = ({
   return (
     <payment-widget
       basepath={basepath}
-      publicFisikalKey={publicFisikalKey}
-      publicStripeKey={publicStripeKey}
     />
   );
 };
@@ -230,8 +186,6 @@ function App() {
   return (
     <PaymentWidget
       basepath="/widget"
-      publicFisikalKey="fisikal_public_key_xxx"
-      publicStripeKey="pk_test_xxx"
       onCompleted={({ success }) => console.log('Payment completed:', success)}
       onBack={() => console.log('Back clicked')}
     />
