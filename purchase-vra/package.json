@@ -5,12 +5,14 @@
   "main": "./widget.js",
   "exports": {
     ".": {
-      "import": "./widget.js"
+      "import": "./widget.js",
+      "require": "./widget.umd.cjs"
     },
     "./widget.css": "./widget.css"
   },
   "files": [
     "widget.js",
+    "widget.umd.cjs",
     "widget.css",
     "assets"
   ]
